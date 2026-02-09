@@ -1,34 +1,27 @@
 require("dotenv").config();
+require("./polyfill");
+require("module-alias/register");
 
 const express = require("express");
-const prisma = require("./src/libs/prisma");
+const cors = require("cors");
 
-const rootRouter = require("./src/routes");
-const responseFormat = require("./src/middlewares/responseFormat");
+const rootRouter = require("@/routes");
+const responseFormat = require("@/middlewares/responseFormat");
+const errorHandle = require("@/middlewares/errorHandle");
+const notFound = require("@/middlewares/notFound");
 
 const app = express();
 const port = 3000;
 
-BigInt.prototype.toJSON = function () {
-	return this.toString();
-};
-
-app.use("./api", rootRouter);
+app.use(express.json());
+app.use(cors());
 app.use(responseFormat);
 
-app.get("/", (req, res) => {
-	res.send("Hello World!");
-});
+app.use("/api", rootRouter);
 
-app.get("/api/posts", async (req, res) => {
-	const posts = await prisma.post.findMany({
-		include: {
-			user: true,
-		},
-	});
-	res.send(posts);
-});
+app.use(notFound);
+app.use(errorHandle);
 
 app.listen(port, () => {
-	console.log(`Example app listening on port ${port}`);
+	console.log(`listening on port ${port}`);
 });
