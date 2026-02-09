@@ -1,4 +1,4 @@
-const { httpCodes } = require("../../constants");
+const { httpCodes } = require("@/config/constants");
 
 const responseFormat = (_, res, next) => {
 	res.success = (data, status = httpCodes.ok) => {
@@ -13,6 +13,14 @@ const responseFormat = (_, res, next) => {
 			status: "error",
 			error,
 		});
+	};
+
+	res.notFound = () => {
+		res.error("Resource not Found", httpCodes.notFound);
+	};
+
+	res.unauthorized = () => {
+		res.error("Unauthorized", httpCodes.unauthorized);
 	};
 
 	next();
