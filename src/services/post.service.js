@@ -7,7 +7,6 @@ class PostService {
 				user: true,
 			},
 		});
-
 		return posts;
 	}
 }
