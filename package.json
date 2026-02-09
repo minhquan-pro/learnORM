@@ -15,9 +15,7 @@
 		"prisma": "^7.3.0"
 	},
 	"_moduleAliases": {
+		"@root": "./",
 		"@": "./src"
-	},
-	"_moduleDirectories": [
-		"node_modules_custom"
-	]
+	}
 }
