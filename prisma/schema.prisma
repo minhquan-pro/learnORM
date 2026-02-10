@@ -14,9 +14,9 @@ datasource db {
 }
 
 model User {
-    id              BigInt    @id @default(autoincrement())
-    username        String?   @unique
-    email           String    @unique
+    id              BigInt         @id @default(autoincrement())
+    username        String?        @unique
+    email           String         @unique
     password        String?
     firstName       String?
     lastName        String?
@@ -24,10 +24,11 @@ model User {
     bio             String?
     posts           Post[]
     comments        Comment[]
-    isVerified      Boolean   @default(false)
+    isVerified      Boolean        @default(false)
     emailVerifiedAt DateTime?
-    createdAt       DateTime? @default(now())
-    updatedAt       DateTime? @default(now())
+    createdAt       DateTime?      @default(now())
+    updatedAt       DateTime?      @default(now())
+    refreshTokens   RefreshToken[]
 
     @@map("users")
 }
@@ -58,4 +59,20 @@ model Comment {
     updatedAt DateTime @default(now())
 
     user User @relation(fields: [userId], references: [id])
+
+    @@map("comments")
+}
+
+model RefreshToken {
+    id        BigInt   @id @default(autoincrement())
+    token     String   @unique
+    userId    BigInt
+    userAgent String
+    isRevoked Boolean?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@map("refresh_token")
 }
