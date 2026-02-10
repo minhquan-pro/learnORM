@@ -68,7 +68,8 @@ model RefreshToken {
     token     String   @unique
     userId    BigInt
     userAgent String
-    isRevoked Boolean?
+    isRevoked Boolean? @default(false)
+    expiresAt DateTime
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
 
