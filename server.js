@@ -1,5 +1,5 @@
-require("dotenv").config();
 require("./polyfill");
+require("dotenv").config();
 require("module-alias/register");
 
 const express = require("express");
