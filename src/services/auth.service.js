@@ -11,10 +11,7 @@ class AuthService {
 	async handleRegister(email, password, userAgent) {
 		const hashPassword = await bcrypt.hash(password, saltRounds);
 		const user = await prisma.user.create({
-			data: {
-				email,
-				password: hashPassword,
-			},
+			data: { email, password: hashPassword },
 		});
 		const userToken = await this.generateUserToken(user, userAgent);
 		return userToken;
@@ -22,9 +19,7 @@ class AuthService {
 
 	async handleLogin(email, password, userAgent) {
 		const user = await prisma.user.findUnique({
-			where: {
-				email,
-			},
+			where: { email },
 		});
 		if (!user) return [true, null];
 
@@ -44,9 +39,7 @@ class AuthService {
 		do {
 			token = randomString(32);
 			const count = await prisma.refreshToken.count({
-				where: {
-					token,
-				},
+				where: { token },
 			});
 
 			existed = count > 0;
