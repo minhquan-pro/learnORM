@@ -16,13 +16,13 @@ model User {
     lastName        String?
     avatar          String?
     bio             String?
-    posts           Post[]
-    comments        Comment[]
     isVerified      Boolean        @default(false)
     emailVerifiedAt DateTime?
     createdAt       DateTime?      @default(now())
     updatedAt       DateTime?      @default(now())
+    posts           Post[]
     refreshTokens   RefreshToken[]
+    comments        Comment[]
 
     @@map("users")
 }
@@ -30,6 +30,7 @@ model User {
 model Post {
     id          BigInt    @id @default(autoincrement())
     userId      BigInt
+    postIdeaId  BigInt
     title       String
     description String?   @db.Text
     slug        String    @unique
@@ -40,7 +41,8 @@ model Post {
     createdAt   DateTime  @default(now())
     updatedAt   DateTime  @default(now())
 
-    user User @relation(fields: [userId], references: [id])
+    user     User     @relation(fields: [userId], references: [id])
+    postIdea PostIdea @relation(fields: [postIdeaId], references: [id])
 
     @@map("posts")
 }
@@ -70,4 +72,16 @@ model RefreshToken {
     user User @relation(fields: [userId], references: [id])
 
     @@map("refresh_token")
+}
+
+model PostIdea {
+    id          BigInt   @id @default(autoincrement())
+    title       String
+    description String
+    status      String   @default("pending")
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+    posts       Post[]
+
+    @@map("post_ideas")
 }

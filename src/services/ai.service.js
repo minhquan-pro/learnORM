@@ -7,27 +7,30 @@ const randomString = require("@/utils/randomString");
 class AIService {
 	constructor() {}
 
-	async chat(prompt, model = "kwaipilot/kat-coder-pro-v1") {
+	async generateText(prompt, model = "kwaipilot/kat-coder-pro-v1", tools, output) {
 		const { text } = await generateText({
 			model,
 			prompt,
+			tools,
+			output,
 		});
 		return text;
 	}
 
-	async webSearch(prompt, model = "kwaipilot/kat-coder-pro-v1") {
-		const { text } = await generateText({
-			model,
+	async webSearch(prompt, output) {
+		return this.generateText(
 			prompt,
-			tools: {
-				perplexity_search: gateway.tools.perplexitySearch(),
+			"openai/gpt-5.2",
+			{
+				perplexity_search: gateway.tools.perplexitySearch({
+					country: "VN",
+					searchLanguageFilter: ["vi", "en"],
+					searchRecencyFilter: "year",
+				}),
 			},
-		});
-
-		return text;
+			output,
+		);
 	}
-
-	stream() {}
 
 	async generateImage(prompt, model = "google/gemini-3-pro-image") {
 		const result = await generateText({
