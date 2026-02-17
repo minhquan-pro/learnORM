@@ -1,9 +1,9 @@
 require("dotenv").config();
 require("module-alias/register");
-const { Output } = require("ai");
-import prisma from "@/libs/prisma";
-import { z } from "zod";
 
+const { Output } = require("ai");
+const prisma = require("@/libs/prisma");
+const { z } = require("zod");
 const aiService = require("@/services/ai.service");
 
 async function main() {
