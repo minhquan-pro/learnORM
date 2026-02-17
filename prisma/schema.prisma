@@ -85,3 +85,10 @@ model PostIdea {
 
     @@map("post_ideas")
 }
+
+model Message {
+    id      BigInt @id @default(autoincrement())
+    message String
+
+    @@map("messages")
+}
