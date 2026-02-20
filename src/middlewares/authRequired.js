@@ -18,7 +18,7 @@ const authRequired = async (req, res, next) => {
 
 	if (!user) return res.unauthorized();
 
-	res.auth = { user };
+	req.auth = { user };
 
 	next();
 };

@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 
 const authConfig = require("@/config/auth");
 const randomString = require("@/utils/randomString");
+const notificationService = require("./notification.service");
 
 const saltRounds = 10;
 
@@ -13,6 +14,12 @@ class AuthService {
 		const user = await prisma.user.create({
 			data: { email, password: hashPassword },
 		});
+
+		await notificationService.notify(
+			user,
+			"Chào mừng bạn đã gia nhập F8! Chúc bạn có những giây phút học tập thú vị nha^^",
+		);
+
 		const userToken = await this.generateUserToken(user, userAgent);
 		return userToken;
 	}

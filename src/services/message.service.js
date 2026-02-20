@@ -34,7 +34,7 @@ class MessageService {
 				await sleep(1000);
 
 				messages = await this.getLastMessages(lastMessageId);
-				if (messages.length) break;
+				if (messages.length > 0) break;
 			}
 		}
 

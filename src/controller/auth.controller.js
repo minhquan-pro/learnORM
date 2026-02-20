@@ -17,7 +17,7 @@ const login = async (req, res) => {
 };
 
 const getCurrentUser = async (req, res) => {
-	res.success(res.auth.user);
+	res.success(req.auth.user);
 };
 
 const refreshToken = async (req, res) => {
